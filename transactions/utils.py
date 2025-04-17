@@ -16,7 +16,7 @@ from common_library.mongo import get_mongo_db
 
 
 def set_transaction_summary_cache(
-    data: list, trans_type: str, trans_mode: str, merchant_id
+    data: list, trans_type: str, trans_mode: str, merchant_id: str | bool = None
 ):
     db = get_mongo_db()
     summary_collection = db["transaction_summary"]
@@ -53,7 +53,9 @@ def get_transaction_summary_cache(trans_type: str, trans_mode: str, merchant_id)
     return None
 
 
-def process_transaction(trans_type, trans_mode, trans_merchant_id):
+def process_transaction(
+    trans_type: str, trans_mode: str, trans_merchant_id: str | bool = None
+):
     db = get_mongo_db()
     transaction_collection = db.get_collection("transaction")
 

@@ -49,6 +49,7 @@ class TransactionView(TransactionQueryMixin, APIView):
         )
         if cache_result:
             return Response(cache_result)
+
         data = process_transaction(
             trans_type=trans_type,
             trans_mode=trans_mode,
