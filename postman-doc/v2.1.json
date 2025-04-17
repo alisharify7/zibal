@@ -1,0 +1,106 @@
+{
+	"info": {
+		"_postman_id": "4da8d902-f4cd-43a7-8c8d-e38a98907c3c",
+		"name": "zibal-transaction",
+		"description": "### 1\\. 📦 Read from Cache Only\n\n``` http\nGET /transactions/cache/?mode=monthly&type=count\n\n ```\n\n- Fetches precomputed summary data directly from the `transaction_summary` collection.\n    \n- Fastest response: no aggregation is executed.\n    \n- If cache is not found, it returns:\n    \n    - `204 No Content`, or\n        \n    - an empty list `[]` (based on implementation).\n        \n\n---\n\n### 2\\. 📊 Generate & Cache Report\n\n``` http\nGET /transactions/?mode=monthly&type=count\n\n ```\n\n- Checks if the result exists in cache.\n    \n- If **found**: returns cached result ✅\n    \n- If **not found**:\n    \n    - Executes aggregation on `transaction` collection using MongoDB pipeline.\n        \n    - Generates the formatted response (in Jalali calendar).\n        \n    - Caches the result in `transaction_summary`.\n        \n    - Then returns it to the client.\n        \n\nThis view is **slower on first call** but **fast on subsequent requests** thanks to caching.\n\n---\n\n## 🔧 Query Parameters\n\n| Parameter | Values | Description |\n| --- | --- | --- |\n| `mode` | `daily`, `weekly`, `monthly` | Time interval for grouping the results |\n| `type` | `count`, `amount` | Aggregate by transaction count or total amount |\n| `merchantId` | _(optional)_ MongoDB ObjectId | Filter report by a specific merchant (if provided) |\n\n---",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23384590",
+		"_collection_link": "https://interstellar-spacecraft.postman.co/workspace/Team-Workspace~08bcf967-695e-462b-832d-d60b816fdfbc/collection/23384590-4da8d902-f4cd-43a7-8c8d-e38a98907c3c?action=share&source=collection_link&creator=23384590"
+	},
+	"item": [
+		{
+			"name": "get-transactions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/transactions/?mode=daily&type=count&merchantId=63a69a2d18f93478889d5f11",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"transactions",
+						""
+					],
+					"query": [
+						{
+							"key": "mode",
+							"value": "daily"
+						},
+						{
+							"key": "type",
+							"value": "count"
+						},
+						{
+							"key": "merchantId",
+							"value": "63a69a2d18f93478889d5f11"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-cached-transactions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/transactions/cache/?mode=daily&type=count&merchantId=63a69a2d18f93478889d5f11",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"transactions",
+						"cache",
+						""
+					],
+					"query": [
+						{
+							"key": "mode",
+							"value": "daily"
+						},
+						{
+							"key": "type",
+							"value": "count"
+						},
+						{
+							"key": "merchantId",
+							"value": "63a69a2d18f93478889d5f11"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+}
