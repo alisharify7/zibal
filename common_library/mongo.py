@@ -48,4 +48,4 @@ def get_mongo_db(db_name: str = "zibal_db") -> Database:
         transactions = db.transactions.find()
     """
     client = get_mongo_client()
-    return client.get_database()
+    return client.get_database(db_name)
