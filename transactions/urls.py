@@ -14,5 +14,5 @@ from . import views
 
 urlpatterns = [
     path("", views.TransactionView.as_view(), name="transaction"),
-    path("cache/", views.TransactionView.as_view(), name="cached-transaction"),
+    path("cache/", views.TransactionCachedView.as_view(), name="cached-transaction"),
 ]
