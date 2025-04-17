@@ -8,10 +8,6 @@
 * Repository: https://github.com/alisharify7/zibal
 """
 
-from django.contrib import admin
-from django.urls import path, include
+from .transactions import TransactionQueryMixin
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("transactions/", include("transactions.urls")),
-]
+__all__ = ["TransactionQueryMixin"]

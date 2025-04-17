@@ -8,10 +8,6 @@
 * Repository: https://github.com/alisharify7/zibal
 """
 
-from django.contrib import admin
-from django.urls import path, include
+from .mongo import get_mongo_db, get_mongo_client
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("transactions/", include("transactions.urls")),
-]
+__all__ = ["get_mongo_db", "get_mongo_client"]

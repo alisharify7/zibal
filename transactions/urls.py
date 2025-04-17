@@ -8,10 +8,11 @@
 * Repository: https://github.com/alisharify7/zibal
 """
 
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+
+from . import views
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("transactions/", include("transactions.urls")),
+    path("", views.TransactionView.as_view(), name="transaction"),
+    path("cache/", views.TransactionView.as_view(), name="cached-transaction"),
 ]

@@ -1,0 +1,67 @@
+
+services:
+  web:
+    container_name: web
+    hostname: web
+    restart: on-failure
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+      - mongo-setup
+    environment:
+      - DJANGO_SETTINGS_MODULE=core.settings
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+    networks:
+      - internal_proxy
+    env_file:
+      - .docker.env
+
+
+  mongo:
+    image: "mongo:${MONGO_DB_TAG:-4.4}"
+    container_name: mongo
+    hostname: mongo
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init:/mongo-init
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME:-username}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD:-password}
+    command:
+      - --bind_ip_all
+      - --auth
+    env_file:
+      - .docker.env
+    networks:
+      - internal_proxy
+
+  mongo-setup:
+      image: "mongo:${MONGO_DB_TAG:-4.4}"
+      container_name: mongo_setup
+      hostname: mongo_setup
+      restart: on-failure
+      depends_on:
+        mongo:
+          condition: service_started
+      volumes:
+        - ./mongo-init:/mongo-init
+      entrypoint: ["/mongo-init/init-mongo.sh"]
+      networks:
+        - internal_proxy
+      env_file:
+        - .docker.env
+
+
+volumes:
+  mongo_data:
+
+networks:
+  internal_proxy:

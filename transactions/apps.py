@@ -8,10 +8,9 @@
 * Repository: https://github.com/alisharify7/zibal
 """
 
-from django.contrib import admin
-from django.urls import path, include
+from django.apps import AppConfig
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("transactions/", include("transactions.urls")),
-]
+
+class TransactionsConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "transactions"
