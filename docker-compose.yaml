@@ -4,14 +4,16 @@ services:
     container_name: web
     hostname: web
     restart: on-failure
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - .:/app
     ports:
       - "8000:8000"
     depends_on:
-      - mongo
-      - mongo-setup
+        mongo:
+          condition: service_started
     environment:
       - DJANGO_SETTINGS_MODULE=core.settings
       - MONGO_HOST=mongo
@@ -33,8 +35,8 @@ services:
     ports:
       - "27017:27017"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME:-username}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD:-password}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USERNAME:-username}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD:-password}
     command:
       - --bind_ip_all
       - --auth
