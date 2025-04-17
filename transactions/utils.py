@@ -31,7 +31,7 @@ def set_transaction_summary_cache(
         "type": trans_type,
         "mode": trans_mode,
         "merchantId": query["merchantId"],
-        "createdAt": datetime.utcnow().isoformat(),
+        "createdAt": datetime.datetime.now(datetime.UTC).isoformat(),
     }
 
     summary_collection.delete_one(query)
