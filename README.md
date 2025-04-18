@@ -11,8 +11,7 @@ GET /transactions/cache/?mode=monthly&type=count
 - Fetches precomputed summary data directly from the `transaction_summary` collection.
 - Fastest response: no aggregation is executed.
 - If cache is not found, it returns:
-  - `204 No Content`, or
-  - an empty list `[]` (based on implementation).
+  - `404 Not Found`, 
 
 ---
 

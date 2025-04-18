@@ -100,5 +100,5 @@ class TransactionCachedView(TransactionQueryMixin, APIView):
                 {
                     "message": "query was not found in cache db. for retrieving data use main api endpoint."
                 },
-                status=status.HTTP_204_NO_CONTENT,
+                status=status.HTTP_404_NOT_FOUND,
             )
