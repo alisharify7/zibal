@@ -1,28 +1,14 @@
-from datetime import datetime
+"""
+* Zibal Payment Test Task
+*
+* Developer: Ali Sharifi
+* Email: alisharifyofficial@gmail.com
+* Website: ali-sharify.ir
+* GitHub: github.com/alisharify7/zibal
+* Repository: https://github.com/alisharify7/zibal
+"""
 
-from bson import ObjectId
 from rest_framework import serializers
-
-
-class ObjectIdField(serializers.Field):
-    def to_representation(self, value):
-        return str(value)
-
-    def to_internal_value(self, data):
-        return ObjectId(data)
-
-
-class TransactionSerializer(serializers.Serializer):
-    _id = ObjectIdField(read_only=True)
-    merchantId = ObjectIdField()
-    amount = serializers.IntegerField()
-    createdAt = serializers.DateTimeField()
-
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        if "createdAt" in data and isinstance(instance["createdAt"], datetime):
-            data["createdAt"] = instance["createdAt"].isoformat()
-        return data
 
 
 class TransactionQueryParamsSerializer(serializers.Serializer):
