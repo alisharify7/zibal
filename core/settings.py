@@ -13,9 +13,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 import secrets
 from pathlib import Path
-from dotenv import load_dotenv
-
-load_dotenv()
+from decouple import config
+from pygments.lexer import default
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,12 +24,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", secrets.token_urlsafe(128))
+SECRET_KEY = config("DJANGO_SECRET_KEY", default=secrets.token_urlsafe(128))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", default=True, cast=bool)
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = config(
+    "ALLOWED_HOSTS", default="*", cast=lambda v: [x.strip() for x in v.split(",")]
+)
 
 
 # Application definition
@@ -87,11 +88,11 @@ DATABASES = {
 }
 
 # Mongodb Config
-MONGODB_HOST = os.environ.get("MONGODB_HOST", "localhost")
-MONGODB_PORT = os.environ.get("MONGODB_PORT", 27017)
-MONGODB_USERNAME = os.environ.get("MONGODB_USERNAME", "")
-MONGODB_PASSWORD = os.environ.get("MONGODB_PASSWORD", "")
-MONGO_DB_NAME = os.environ.get("MONGO_DB_NAME", "zibal_db")
+MONGODB_HOST = config("MONGODB_HOST", default="localhost", cast=str)
+MONGODB_PORT = config("MONGODB_PORT", default=27017, cast=int)
+MONGODB_USERNAME = config("MONGODB_USERNAME", default="", cast=str)
+MONGODB_PASSWORD = config("MONGODB_PASSWORD", default="", cast=str)
+MONGO_DB_NAME = config("MONGO_DB_NAME", default="zibal_db", cast=str)
 
 
 # Password validation
@@ -118,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Tehran"
 
 USE_I18N = True
 

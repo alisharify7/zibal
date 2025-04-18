@@ -10,7 +10,7 @@ COPY requirements.txt .
 RUN pip install --upgrade pip gunicorn && \
     pip install -r requirements.txt
 
-COPY . .
+COPY . /app
 
 RUN python manage.py makemigrations
 RUN python manage.py migrate
