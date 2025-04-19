@@ -4,9 +4,6 @@ MONGO_USER=${MONGODB_USERNAME:-username}
 MONGO_PASS=${MONGODB_PASSWORD:-admin}
 
 
-echo $MONGO_PASS
-echo $MONGO_USER
-
 # wait for mongoDB
 sleep 5 # we can remove this if we can add depends_on: service_healthy to mongoDB but just for now
 
